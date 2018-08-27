@@ -12,3 +12,59 @@ Feature: Checkout
       | payment method | payment details |
       | credit card    | my CC number    |
       | paypal         | my paypal email |
+      
+------------------------------------------------------------------------------
+Scenario: I have no steps
+
+------------------------------------------------------------------------------
+Scenario Outline: Test state
+Given <state> without a table
+Given <other_state> without a table
+Examples: Rainbow colours
+	| state    | other_state |
+	| missing  | passing     |
+	| passing  | passing     |
+	| failing  | passing     |
+Examples:Only passing
+    | state    | other_state |
+    | passing  | passing     |
+------------------------------------------------------------------------------
+
+@CCOrg @CCNet
+	Feature: Testing for login page
+
+	Scenario Outline: Bad login
+
+		Given I want to use the browser Firefox
+		When I set the username to [username]
+		When I set the password to [password]
+		When I login to CosmicComix
+		Then I see the error message "[message]"
+		And I am on the login page
+
+		@Regression
+		Examples:
+		|	username		|	password		|		message		|
+		|	testuser1 		|				|	Please provide a password.	|
+		|				|	testuser1		|	Please provide a username.	|
+		|	testuser		|	testuser		|	That username does not match anything in our records.		|
+		|	testuser1		|	testuser2		|	The password provided does not match the username entered.	|
+------------------------------------------------------------------------------
+	Scenario Outline: Successful login
+
+		Given I want to use the browser [browser]
+		When I set the username to testuser1
+		And I set the password to testuser1
+		When I login to CosmicComix
+		Then I am on the launcher page
+
+		@Regression
+		Examples:
+				|	    browser	 |
+				|	    Firefox	 |
+				|	    Chrome       |
+				|     InternetExplorer   |
+		@Smoke
+		Examples:
+				|	browser		|
+				|	Firefox		|

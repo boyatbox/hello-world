@@ -1,0 +1,14 @@
+Feature: Checkout
+  Scenario Outline: International checkout
+    Given I am on the checkout page
+    When I enter my email address
+    And I enter my password
+    And I select <payment method>
+    And I provide <payment details>
+    Then I expect the payment details to be accepted
+    And I expect to see an order confirmation page
+ 
+    Examples:
+      | payment method | payment details |
+      | credit card    | my CC number    |
+      | paypal         | my paypal email |
